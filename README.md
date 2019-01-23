@@ -1,5 +1,10 @@
 # LOG365-H2019
 
+LABO1
+
+User: log635
+Mot de passe: W2019
+
 1. Connecter le robo port usb
 2. Ouvrir application Cozmo
 3. Connecter au Wifi de Cozmo (regarder son visage pour password)
@@ -15,4 +20,6 @@ py -3 labo1.py
 ou python3 labo1.py
 ou python labo1.py
 
+** Si la connection avec le simple_cli est non foctionnel **
 
+12. Faire ce qui est ecrit ici http://cozmosdk.anki.com/docs/adb.html#adb 
