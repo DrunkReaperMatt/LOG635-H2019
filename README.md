@@ -15,6 +15,7 @@ Mot de passe: W2019
 8. simple_cli (seulement) devrait permettre la connection au robot
 9. Verifier le cellulaire, devrait afficher les commande sur lecran
 10. Dans  le repository LOG635-H2019/labo1 
+note : deconnecter simple_cli avec ctrl+c , ctrl + D ( simple_cli sert a tester)
 11. Utiliser commande: 
 py -3 labo1.py 
 ou python3 labo1.py
