@@ -42,7 +42,7 @@ def follow_faces(robot: cozmo.robot.Robot):
         if not (face_to_follow and face_to_follow.is_visible):
             # find a visible face, timeout if nothing found after a short while
             try:
-                face_to_follow = robot.world.wait_for_observed_face(timeout=30)
+                face_to_follow = robot.world.wait_for_observed_face(timeout=5)
             except asyncio.TimeoutError:
                 print("Didn't find a face - exiting!")
                 return
@@ -163,7 +163,7 @@ def custom_objects(robot: cozmo.robot.Robot):
     diamonds3 = CustomObjectMarkers.Diamonds3
     triangle2 = CustomObjectMarkers.Triangles2
     triangle3 = CustomObjectMarkers.Triangles3
-    triangle3 = CustomObjectMarkers.Triangles4
+    triangle4 = CustomObjectMarkers.Triangles4
     hexagone2 = CustomObjectMarkers.Hexagons2
     hexagone3 = CustomObjectMarkers.Hexagons3
 
@@ -227,7 +227,7 @@ def cozmo_program(robot: cozmo.robot.Robot):
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     print('1')
     # Arret 2 (parcours losange)
-    robot.say_text(" La premiere action est de dire un texte").wait_for_completed()
+    robot.say_text(" All your bases are belong to us").wait_for_completed()
     take_picture(robot, 2)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     print('2')
@@ -242,7 +242,8 @@ def cozmo_program(robot: cozmo.robot.Robot):
     robot.turn_in_place(degrees(90)).wait_for_completed()
     print('4')
     # Arret 5
-    custom_objects(robot)
+	#revoir code -- inifinite loop.
+    #custom_objects(robot)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 5)
