@@ -1,6 +1,7 @@
 import sys
 import time
 
+import cozmo
 import cozmo.robot
 import asyncio
 from cozmo.objects import CustomObjectMarkers,FixedCustomObject,EvtObjectLocated,CustomObjectTypes, CustomObject,\
@@ -82,12 +83,23 @@ def take_picture(robot: cozmo.robot.Robot, i):
 #    markers_identification = robot.world.define_custom_wall(CustomObject.)
 
 def start_music(robot: cozmo.robot.Robot):
-    robot.play_audio(cozmo.audio.AudioEvents.Sfx_Egg_Decorating_Crack)
-    time.sleep(2.0)
+    # Turn on the strings_mode_3 channel.
+    time.sleep(2)
+
+    print('1')
+    robot.play_audio(AudioEvents.MusicTinyOrchestraStringsMode3)
+
+    # After 5 seconds...
+    print('2')
+    time.sleep(5.0)
+
+    # Stop the tiny orchestra system.
+    # This will cause all tinyOrchestra music to stop playing.
+    print('3')
+    robot.play_audio(AudioEvents.MusicTinyOrchestraStop)
 
 
 # Desempile 2 cubes
-
 def desempileCube(robot : cozmo.robot.Robot):
     # allume les 2 cubes qui seront utilise
     cozmo.objects.LightCube1Id = 1
@@ -119,12 +131,11 @@ def desempileCube(robot : cozmo.robot.Robot):
             print("Place On Cube failed: code=%s reason='%s' result=%s" % (code, reason, result))
             return
 
-        print("Cozmo successfully stacked 2 blocks!")
+        print("Cozmo successfully UNstacked 2 blocks!")
         return
 
 
 #empile 2 cubes
-
 def empileCube(robot : cozmo.robot.Robot):
     lookaround = robot.start_behavior(cozmo.behavior.BehaviorTypes.LookAroundInPlace)
     cubes = robot.world.wait_until_observe_num_objects(num=2, object_type=cozmo.objects.LightCube, timeout=60)
@@ -143,7 +154,9 @@ def empileCube(robot : cozmo.robot.Robot):
             print("Pickup Cube failed: code=%s reason='%s' result=%s" % (code, reason, result))
             return
 
-        # Depose le premier cube sur le deuxieme cube
+        # Depose le premier cube sur le deuxieme cube    empileCube(robot)
+        robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
+        robot.turn_in_place(degrees(90)).wait_for_completed()
         current_action = robot.place_on_object(cubes[1], num_retries=3)
         current_action.wait_for_completed()
         if current_action.has_failed:
@@ -216,88 +229,111 @@ def custom_objects(robot: cozmo.robot.Robot):
           "everytime a custom object enters or exits Cozmo's view.")
 
     print("Press CTRL-C to quit")
-    while True:
-        time.sleep(0.1)
+    #while True:
+    time.sleep(1)
 
 
 def cozmo_program(robot: cozmo.robot.Robot):
-
     # Arret 1
     take_picture(robot, 1)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
-    print('1')
+    print('Arret 1')
+
     # Arret 2 (parcours losange)
-    robot.say_text(" All your bases are belong to us").wait_for_completed()
+    ## Speach function
+    robot.say_text("I am speaking.").wait_for_completed()
     take_picture(robot, 2)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
-    print('2')
+    print('Arret 2')
+
     # Arret 3
     take_picture(robot, 3)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
-    print('3')
+    print('Arret 3')
+
     # Arret 4 (parcours losange)
+    ## Play music
     take_picture(robot, 4)
     start_music(robot)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
-    print('4')
+    print('Arret 4')
+
     # Arret 5
-	#revoir code -- inifinite loop.
-    #custom_objects(robot)
+    custom_objects(robot)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 5)
-    print('5')
+    print('Arret 5')
+
     # Arret 6
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 6)
-    print('6')
+    print('Arret 6')
+
     # Arret 7
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 7)
-    print('7')
+    print('Arret 7')
+
     # Arret 8
     robot.turn_in_place(degrees(90)).wait_for_completed()
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 8)
-    print('8')
+    print('Arret 8')
+
     # Arret 9 (parcours losange)
+    ## Face Tracking 
     follow_faces(robot)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 9)
-    print('9')
+    print('Arret 9')
+
     # Arret 10
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 10)
-    print('10')
+    print('Arret 10')
+
     # Arret 11 (parcours losange)
+    ## Empiler cubes
     empileCube(robot)
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 11)
-    print('11')
+    print('Arret 11')
+
     # Arret 12
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 12)
-    print('12')
+    print('Arret 12')
+
     # Arret 13 (parcours losange)
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     robot.turn_in_place(degrees(90)).wait_for_completed()
     take_picture(robot, 13)
-    print('13')
+    print('Arret 13')
+
     # Arret 14
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 14)
-    print('14')
+    print('Arret 14')
+
     # Arret 15 (parcours losange)
+    ## Desempile Cubes
     desempileCube(robot)
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 15)
-    print('15')
+    robot.say_text('I am finished').wait_for_completed
+    print('Arret 15')
+
+
+def test_program(robot: cozmo.robot.Robot):
+    start_music(robot)
 
 
 if __name__ == '__main__':
-    cozmo.run_program(cozmo_program, use_3d_viewer=True, show_viewer_controls=True)
+    #cozmo.run_program(cozmo_program, use_3d_viewer=True, show_viewer_controls=True)
+    cozmo.run_program(test_program, use_3d_viewer=True, show_viewer_controls=True)
