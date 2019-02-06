@@ -234,7 +234,8 @@ def custom_objects(robot: cozmo.robot.Robot):
 
 
 def cozmo_program(robot: cozmo.robot.Robot):
-    # Arret 1
+    time.sleep(5)
+	# Arret 1	
     take_picture(robot, 1)
     robot.drive_straight(distance_mm(90), speed_mmps(50)).wait_for_completed()
     print('Arret 1')
@@ -326,14 +327,13 @@ def cozmo_program(robot: cozmo.robot.Robot):
     desempileCube(robot)
     robot.drive_straight(distance_mm(80), speed_mmps(50)).wait_for_completed()
     take_picture(robot, 15)
-    robot.say_text('I am finished').wait_for_completed
     print('Arret 15')
-
+    robot.say_text("I am speaking.").wait_for_completed()
 
 def test_program(robot: cozmo.robot.Robot):
     start_music(robot)
 
 
 if __name__ == '__main__':
-    #cozmo.run_program(cozmo_program, use_3d_viewer=True, show_viewer_controls=True)
-    cozmo.run_program(test_program, use_3d_viewer=True, show_viewer_controls=True)
+    cozmo.run_program(cozmo_program, use_3d_viewer=True, show_viewer_controls=True)
+    #cozmo.run_program(test_program)
