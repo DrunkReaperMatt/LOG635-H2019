@@ -1,10 +1,16 @@
 from sklearn.svm import SVC
-import numpy as np
+from crossValidation import CrossValidation as cv
 
 class SVM():
 	def print_agent():
 		print('svm')
 
-	def exec(x, y, C=1, kernel='rbf',):
+	def exec(x, y, trainX, C=1e-3, gamma=1e-3, kernel='rbf',):
 		clf = SVC(C=C, kernel=kernel)
 		clf.fit(x,y)
+		result = clf.predict(trainX)
+
+		score = cv().AccuracyScore(knn, x, y)
+		print(score)
+
+		return result

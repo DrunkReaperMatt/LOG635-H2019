@@ -1,10 +1,16 @@
 from sklearn.neighbors import KNeighborsClassifier
-import numpy as np
+from crossValidation import CrossValidation as cv
 
-class KNN():
-	def print_agent():
+class KNN(object):
+	def print_agent(self):
 		print('knn')
 
-	def exec(x, y,n=5, weights = 'uniform'):
-		knn = NearestNeighbors(n_neighbors = n, algorithm ='auto', weights=weights)
+	def exec(self, x, y, trainX, n=5, weights = 'uniform'):
+		knn = KNeighborsClassifier(n_neighbors = n, algorithm ='auto', weights=weights)
 		knn.fit(x,y)
+		result = knn.predict(trainX)
+
+		score = cv().AccuracyScore(knn, x, y)
+		print(score)
+
+		return result
