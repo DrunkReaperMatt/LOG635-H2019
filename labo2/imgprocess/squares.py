@@ -3,9 +3,10 @@
 '''
 Simple "Square Detector" program.
 Loads several images sequentially and tries to find squares in each image.
+
+Source: https://github.com/opencv/opencv/blob/master/samples/python/squares.py
 '''
 
-# Python 2/3 compatibility
 import sys
 PY3 = sys.version_info[0] == 3
 
