@@ -1,8 +1,9 @@
 from sklearn.neighbors import KNeighborsClassifier
 from crossValidation import CrossValidation as cv
 
+
 class KNN(object):
-	def print_agent(self):
+	def print_agent():
 		print('knn')
 
 	def exec(self, x, y, trainX, n=5, weights = 'uniform'):

@@ -16,7 +16,7 @@ pip install opencv-python
 
 # import necessary packages
 import cv2
-import squares as square
+import imgprocess.squares as square
 
 
 # function that reads an image and returns its grayscale cropped square region
