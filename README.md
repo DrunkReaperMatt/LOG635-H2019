@@ -1,6 +1,6 @@
 # LOG365-H2019
 
-LABO1
+LABO1 et 3
 
 User: log635
 Mot de passe: W2019
@@ -23,4 +23,11 @@ ou python labo1.py
 
 ** Si la connection avec le simple_cli est non foctionnel **
 
-12. Faire ce qui est ecrit ici http://cozmosdk.anki.com/docs/adb.html#adb 
+12. Faire ce qui est ecrit ici http://cozmosdk.anki.com/docs/adb.html#adb
+
+LABO2
+
+1. Ouvrir un terminal
+2. Ecrire Jupyter Notebook
+3. Cliquer sur le fichier ipynb
+
