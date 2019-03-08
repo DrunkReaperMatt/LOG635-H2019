@@ -12,9 +12,9 @@ X_train, X_true, y_train, y_test = train_test_split(
 param_grid = [
   {'C': [1, 0.1, 0.01, 0.001], 'kernel': ['linear']},
   {'C': [1, 0.1, 0.01, 0.001], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
- ]
+]
 svc = svm.SVC()
-clf = GridSearchCV(svc, param_grid)
+clf = GridSearchCV(svc, param_grid, cv=5)
 clf.fit(X_train, y_train)
 
 y_pred = clf.predict(X_true)
