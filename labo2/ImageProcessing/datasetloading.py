@@ -1,7 +1,7 @@
 from pathlib import Path
 import numpy as np
 
-from labo2.ImageProcessing.imageprocess import process_image
+from ImageProcessing.imageprocess import process_image
 from sklearn.utils import Bunch
 
 

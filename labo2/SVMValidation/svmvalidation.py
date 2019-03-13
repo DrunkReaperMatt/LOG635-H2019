@@ -1,4 +1,4 @@
-from labo2.ImageProcessing.datasetloading import load_ensemble
+from ImageProcessing.datasetloading import load_ensemble
 
 from sklearn import svm, metrics
 from sklearn.model_selection import train_test_split
