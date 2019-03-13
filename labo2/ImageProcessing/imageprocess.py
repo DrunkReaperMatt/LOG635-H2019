@@ -16,7 +16,7 @@ pip install opencv-python
 
 # import necessary packages
 import cv2 as cv
-from ImageProcessing.squares import find_squares
+from labo2.ImageProcessing.squares import find_squares
 
 
 # function that reads an image and returns its grayscale cropped square region
@@ -25,13 +25,13 @@ def process_image(image_path):
     gray_image = cv.imread(image_path, cv.IMREAD_GRAYSCALE)
 
     # find all squares in image
-    print(image_path)
+    print(image_path + '......Loaded!')
     squares = find_squares(gray_image)
     cv.drawContours(gray_image, squares, -1, (0, 255, 0), 3)
 
     # if no square was found, simply use the original image
     cropped_image = gray_image
-    if (len(squares) != 0) :
+    if len(squares) != 0:
         # crop the grayscale image with the contours
         cropped_image = gray_image[squares[0][0][1]:squares[0][2][1], squares[0][1][0]:squares[0][3][0]]
 

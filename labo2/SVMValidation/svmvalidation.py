@@ -1,27 +1,58 @@
-from ImageProcessing.datasetloading import load_ensemble
+from labo2.ImageProcessing.datasetloading import load_ensemble
 
 from sklearn import svm, metrics
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import time
 
-
+# Load dataset from Ensemble B directory
 image_dataset = load_ensemble("../EnsembleB/")
+dataset_size = image_dataset.target_size
 
-X_train, X_true, y_train, y_test = train_test_split(
-    image_dataset.data, image_dataset.target, test_size=0.3, random_state=109)
+time_train_arr = []
+time_pred_arr = []
+pred_arr = []
+scalability_arr = [dataset_size,
+                    dataset_size*0.8,
+                    dataset_size*0.6,
+                    dataset_size*0.4,
+                    dataset_size*0.2]
 
-param_grid = [
-  {'C': [1, 0.1, 0.01, 0.001], 'kernel': ['linear']},
-  {'C': [1, 0.1, 0.01, 0.001], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
-]
-svc = svm.SVC()
-clf = GridSearchCV(svc, param_grid, cv=5)
-clf.fit(X_train, y_train)
+# Run svm validation for each scalable dataset
+for size in scalability_arr:
+    X = image_dataset.data
+    Y = image_dataset.target
 
-y_pred = clf.predict(X_true)
-target_names = image_dataset.target_names
-print("Classification report for - \n{}:\n{}\n".format(
-    clf, metrics.classification_report(y_test, y_pred, target_names=target_names)
-))
+    print("\nTest de scalabilité à " + str(size) + " %")
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=int(size), random_state=42)
 
-cm = metrics.confusion_matrix(y_test, y_pred)
-print(cm)
+    svc = svm.SVC(dataset_size, 'linear')
+
+    # Train machine
+    init_train_time = time.time()
+    svc.fit(X_train, y_train)
+    end_train_time = time.time()
+    time_train_arr.append(end_train_time - init_train_time)
+
+    # Obtain predictions
+    init_pred_time = time.time()
+    pred_arr.append(svc.score(X_test, y_test))
+    y_pred = svc.predict(X_test)
+    end_pred_time = time.time()
+    time_pred_arr.append(end_pred_time - init_pred_time)
+
+    print("Matrice de classification - \n{}".format(
+        metrics.classification_report(y_test, y_pred)
+    ))
+
+    print("Matrice de confusion - \n{}".format(
+        metrics.confusion_matrix(y_test, y_pred)
+    ))
+
+plt.title("Graphe du temps d'apprentissage")
+plt.plot(scalability_arr, time_train_arr)
+plt.show()
+
+plt.title("Graphe du temps de prédictions")
+plt.plot(scalability_arr, time_pred_arr)
+plt.show()

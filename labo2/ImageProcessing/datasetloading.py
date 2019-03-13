@@ -1,7 +1,7 @@
 from pathlib import Path
 import numpy as np
 
-from ImageProcessing.imageprocess import process_image
+from labo2.ImageProcessing.imageprocess import process_image
 from sklearn.utils import Bunch
 
 
@@ -33,4 +33,5 @@ def load_ensemble(ensemble_path):
     return Bunch(data=flat_data,
                  target=target,
                  target_names=categories,
-                 images=images)
+                 images=images,
+                 target_size=target.size/len(categories))

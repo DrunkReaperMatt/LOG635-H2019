@@ -1,4 +1,4 @@
-from ImageProcessing.imageprocess import process_image
+from labo2.ImageProcessing.imageprocess import process_image
 import cv2 as cv
 
 '''
