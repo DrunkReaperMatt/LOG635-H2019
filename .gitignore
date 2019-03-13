@@ -103,5 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# PyCharm
-.idea
+# zips
+*.rar
+.idea/
+*.docx
