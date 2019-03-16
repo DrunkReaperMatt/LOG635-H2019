@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import time
 
 
-def run_valiadtion(dataset, clf, model='NONE'):
+def run_validation(dataset, clf, model='NONE'):
     dataset_size = dataset.target_size
     time_train_arr = []
     time_pred_arr = []

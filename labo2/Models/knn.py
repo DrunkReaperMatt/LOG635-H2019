@@ -1,5 +1,5 @@
 from sklearn.neighbors import KNeighborsClassifier
-from crossValidation import CrossValidation as cv
+from labo2.Validation.crossValidation import CrossValidation as cv
 
 class KNN(object):
 	def print_agent(self):
