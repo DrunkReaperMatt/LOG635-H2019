@@ -24,7 +24,7 @@ def forward(a,w):
 def sigmoid(z):
     return 1/(1+np.exp(-z))
 
-def inverseSigmoid(a):
+def inverseSigmoid(z):
     return 1/(1+np.exp(-z)) * (1-1/(1+np.exp(-z)))
 
 def removeBiais(w):
@@ -111,7 +111,7 @@ height, width = np.shape(X)
 
 c = list(zip(X, Y))
 
-#randomize X and Y equally to shuffle the dataset but keeping X-Y indexes this is done to avoid having all the data sorted by type
+#pour eviter que les donne soit trier par type
 random.shuffle(c)
 
 X, Y = zip(*c)
@@ -120,24 +120,18 @@ X, Y = zip(*c)
 kfolds = []
 yfolds = []
 
-#number of folds //hyperparameter
+
 k=5
 
-
-#insert all dataset into K folds array which has a size of 5 hyperparam
 for i in range(0,5):
     kfolds.append(X[int(height/k*i):int(height/k*(i+1))])
     yfolds.append(Y[int(height/k*i):int(height/k*(i+1))])
 
-
-#first param = line, second = row, # all weight are initially randomize between 0 and 1
-
 alpha = 0.20
 lamda = [0.2,0.4,0.6,0.8,1]
-epochs = 100
 
-#this is done to calculate the mean accuracy of the 5 accuracies obtains with the 5 folds
 
+#donne en entre avec ajout du billet
 
 for g in range(0,len(lamda)):
     W1 = randomizeW(25,width+1)
@@ -150,11 +144,11 @@ for g in range(0,len(lamda)):
         X_training = []
         Y_training = []
 
-        # the last dataset is for testing
+        #test
         X_test  = []
         Y_test = []
 
-        # this if separates the 5 folds differenty into test and training sets
+        #  separation donne entrainement et de test
         if z == 0:
             X_training = np.concatenate((kfolds[1], kfolds[2], kfolds[3],kfolds[4]), axis=0)
             Y_training = np.concatenate((yfolds[1], yfolds[2], yfolds[3],yfolds[4]), axis=0)
@@ -192,8 +186,8 @@ for g in range(0,len(lamda)):
 
         height, width = np.shape(X_training)
         m=height
-        #loop 100 times to update W1 and W2, 100 is a hyperparameter
-        for i in range (0,epochs):
+        # met a jour 100 fois les donnees
+        for i in range (0,100):
 
             z2 = forward(X_training,W1.transpose())
             a2 = sigmoid(z2)
@@ -216,19 +210,20 @@ for g in range(0,len(lamda)):
             W2 = W2 - alpha*1/m*BigD2
 
 
-        #once weight has been updated , try it with test data
+        # une fois les poids mis a jour , essaie des donne de test
         z2 = forward(X_test,W1.transpose())
         a2 = sigmoid(z2)
         z3 = forward(a2,W2.transpose())
         a3 = sigmoid(z3)
 
-        #predicted array contains data with value converted in 0 or 1 to compare it with actual data
+        #prediction 0 ou 1
+
         predicted = []
         for p in range (0,len(a3)):
             index = indexHighest(a3[p])
             predicted.append(yValue[index])
 
-        #compare predicted and actual
+        #calcul f-mesure , rappel , precision
         average_precision = precision_recall_fscore_support(np.array(Y_test),np.array(predicted), average='weighted')
         recall = average_precision[0]
         accuracy = average_precision[1]
