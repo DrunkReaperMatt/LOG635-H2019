@@ -12,9 +12,25 @@ from cozmo.util import degrees, distance_mm, speed_mmps
 from cozmo.audio import AudioEvents
 from cozmo.camera import EvtNewRawCameraImage
 
+import labo3.interactions.tap as tap
 
-def cozmo_program(robot: cozmo.robot.Robot):
+
+async def cozmo_program(robot: cozmo.robot.Robot):
     print("Starting Investigation")
+
+    cube = None
+    look_around = robot.start_behavior(cozmo.behavior.BehaviorTypes.LookAroundInPlace)
+
+    try:
+        cube = await robot.world.wait_for_observed_light_cube(timeout=60)
+    except asyncio.TimeoutError:
+        print("Didn't find a cube :-(")
+        return
+    finally:
+        look_around.stop()
+
+    interaction = await asyncio.gather(tap.get_interaction(cube))
+    print(interaction)
 
 
 if __name__ == '__main__':
