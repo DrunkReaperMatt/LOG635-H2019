@@ -8,7 +8,7 @@ import cozmo
 import asyncio
 
 
-async def get_interaction(cube: cozmo.objects.LightCube):
+def get_interaction(cube: cozmo.objects.LightCube):
     '''
     Get answer from tapping a cube
     1 tap = yes
@@ -22,13 +22,13 @@ async def get_interaction(cube: cozmo.objects.LightCube):
 
     try:
         print("Waiting for cube to be tapped")
-        await cube.wait_for_tap(timeout=5)
+        cube.wait_for_tap(timeout=5)
         print("Cube tapped once")
         tap_amount += 1
-        await cube.wait_for_tap(timeout=5)
+        cube.wait_for_tap(timeout=5)
         print("Cube tapped twice")
         tap_amount += 1
-        await cube.wait_for_tap(timeout=5)
+        cube.wait_for_tap(timeout=5)
         print("Cube tapped thrice")
         tap_amount += 1
     finally:
