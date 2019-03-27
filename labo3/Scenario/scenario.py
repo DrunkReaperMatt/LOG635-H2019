@@ -1,19 +1,12 @@
-from Scenario.states import LockedState
+from nltk import interpret_sents
+import nltk
 
+class Scenario:
 
-class SimpleDevice(object):
-    def __init__(self):
-        """ Initialize the components. """
+    def text(self):
+        sents = ['Fido barks at Mary']
+        results = interpret_sents(sents, 'grammar.fcfg')
 
-        # Start with a default state.
-        self.state = LockedState()
-
-    def on_event(self, event):
-        """
-        This is the bread and butter of the state machine. Incoming events are
-        delegated to the given states which then handle the event. The result is
-        then assigned as the new state.
-        """
-
-        # The next state will be the result of the on_event function.
-        self.state = self.state.on_event(event)
+        for result in results:
+            for (synrep, symrep) in result:
+                print(symrep)
