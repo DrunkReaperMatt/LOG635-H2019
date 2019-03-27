@@ -5,7 +5,7 @@ from cozmo.util import distance_mm, speed_mmps
 
 LOOK_AROUND_STATE = 'look_around'
 CLUE_FOUND_STATE = 'clue_found'
-
+IS_INVESTIGATING_STATE = 'is_investigating'
 
 class CozmoSherlock:
 
@@ -25,26 +25,25 @@ class CozmoSherlock:
         self.look_around_behavior = None # type: LookAroundInPlace
 
     async def on_tap_cube(self, evt, obj, **kwargs):
-        if obj.object_id == self.interaction_cube.object_id:
-            await self.tap_cube_answer()
+        if obj.object_id == self.interaction_cube.object_id and self.state != IS_INVESTIGATING_STATE:
+            interaction = await self.tap_cube_answer()
+            print(interaction)
 
     async def tap_cube_answer(self):
         tap_amount = 0
-
+        self.state = IS_INVESTIGATING_STATE
         try:
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped once")
-            tap_amount += 1
-            await asyncio.sleep(.5)
+            tap_amount = 1
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped twice")
-            tap_amount += 1
-            await asyncio.sleep(.5)
+            tap_amount = 2
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped thrice")
-            tap_amount += 1
-            await asyncio.sleep(.5)
+            tap_amount = 3
         finally:
+            self.state = LOOK_AROUND_STATE
             return tap_amount
 
     def define_cubes(self):
@@ -66,7 +65,7 @@ class CozmoSherlock:
                 if self.look_around_behavior:
                     self.look_around_behavior.stop()
                     self.look_around_behavior = None
-            self.robot.say_text("What is this?").wait_for_completed()
+            await self.robot.say_text("What is this?").wait_for_completed()
 
     async def define_known_obj(self):
         self.knife = await self.robot.world.define_custom_wall(CustomObjectTypes.CustomType00,
