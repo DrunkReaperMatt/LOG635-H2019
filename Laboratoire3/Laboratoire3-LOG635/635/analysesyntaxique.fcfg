@@ -1,0 +1,39 @@
+%start S
+S[SEM = <app(?vp, ?suj)>] -> NP[SEM=?suj] VP[SEM=?vp]
+S[SEM = <app(?vp, ?suj)>] -> NP[SEM=?suj] V[SEM=?vp]
+S[SEM =?vp] -> PP VP[SEM=?vp]
+S[SEM = <app(?vp, ?suj)>] -> NP[SEM=?suj] NP[SEM=?vp]
+NP[SEM=<app(?pp, ?vp)>] -> NP[SEM=?vp] V[SEM=?pp]
+NP[SEM=?np] -> PP NP[SEM=?np]
+NP[SEM=?np] -> PP N[SEM=?np]
+VP[SEM=<app(?pp, ?vp)>] -> VP[SEM=?vp] PP[SEM=?pp]
+VP[SEM=<app(?v, ?np)>] -> V[SEM=?v] NP[SEM=?np]
+PP[SEM=<app(?p, ?np)>] -> P[SEM=?p] NP[SEM=?np]
+PP[SEM=<app(?p, ?np)>] -> P[SEM=?p] VP[SEM=?np]
+NP[SEM=?np] -> Det N[SEM=?np]
+NP[SEM=?np] -> Nprop[SEM=?np]
+
+V[SEM=<\y.\x.tuer (x,y)>] -> 'tue' | 'tua'
+V[SEM=<\x.pendre (x)>] -> 'pendre'
+V[SEM=<\x.poignarder (x)>] -> 'poignarder'
+V[SEM=<\x.obligation (x)>] -> 'faut'
+V[SEM=<\x.\y.loc(x,y)>] -> 'est'
+V[SEM=<\x.saigne (x)>] -> 'saigne'
+
+P[SEM=<\x.\P.\y.(instr (x) and P (y))>] -> 'avec'
+P[SEM=<\x.\P.\y.(loc (x) and P (y))>] -> 'dans'
+P[SEM=<\x.\y.(x implies y)>] -> 'pour'
+
+Nprop[SEM=<black>] -> 'Black'
+Nprop[SEM=<mustard>] -> 'Mustard'
+
+Det -> 'une' | 'la' | 'un' | 'le'
+
+PP -> 'il' | 'à' | 'au'
+
+N[SEM=<Corde>] -> 'corde'
+N[SEM=<Cuisine>] -> 'cuisine'
+N[SEM=<Salon>] -> 'salon'
+N[SEM=<Chambre>] -> 'chambre'
+N[SEM=<Couteau>] -> 'couteau' | 'couteaux'
+N[SEM=<Personne>] -> 'personne'
