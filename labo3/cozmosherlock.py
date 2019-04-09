@@ -1,11 +1,11 @@
 import cozmo
 import asyncio
 from cozmo.objects import CustomObject, CustomObjectMarkers, CustomObjectTypes
-from cozmo.util import distance_mm, speed_mmps
 
 LOOK_AROUND_STATE = 'look_around'
 CLUE_FOUND_STATE = 'clue_found'
 IS_INVESTIGATING_STATE = 'is_investigating'
+
 
 class CozmoSherlock:
 
@@ -19,6 +19,7 @@ class CozmoSherlock:
         self.killer_cube = None # type: LightCube
         self.victim_cube = None # type: LightCube
         self.knife = None
+        self.kitchen = None
 
         self.state = LOOK_AROUND_STATE
 
@@ -30,21 +31,21 @@ class CozmoSherlock:
             print(interaction)
 
     async def tap_cube_answer(self):
-        tap_amount = 0
+        answer = ""
         self.state = IS_INVESTIGATING_STATE
         try:
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped once")
-            tap_amount = 1
+            answer = "Yes"
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped twice")
-            tap_amount = 2
+            answer = "No"
             await self.interaction_cube.wait_for_tap(timeout=5)
             print("Cube tapped thrice")
-            tap_amount = 3
+            answer = "Maybe"
         finally:
             self.state = LOOK_AROUND_STATE
-            return tap_amount
+            return answer
 
     def define_cubes(self):
         self.interaction_cube.set_lights(cozmo.lights.blue_light)
@@ -59,17 +60,26 @@ class CozmoSherlock:
 
     async def on_clue_found(self, evt, obj, **kwargs):
         if isinstance(obj, CustomObject):
-            print(self.state)
             if self.state == LOOK_AROUND_STATE:
                 self.state = CLUE_FOUND_STATE
                 if self.look_around_behavior:
                     self.look_around_behavior.stop()
                     self.look_around_behavior = None
-            await self.robot.say_text("What is this?").wait_for_completed()
+            if obj.object_type == CustomObjectTypes.CustomType00:
+                await self.robot.say_text("Is this a knife?").wait_for_completed()
+            elif obj.object_type == CustomObjectTypes.CustomType01:
+                await self.robot.say_text("I am in the kitchen").wait_for_completed()
+                self.state == LOOK_AROUND_STATE
+            else:
+                await self.robot.say_text("What is this?").wait_for_completed()
 
     async def define_known_obj(self):
         self.knife = await self.robot.world.define_custom_wall(CustomObjectTypes.CustomType00,
                                                                CustomObjectMarkers.Circles2,
+                                                               40, 40,
+                                                               30, 30, True)
+        self.kitchen = await self.robot.world.define_custom_wall(CustomObjectTypes.CustomType01,
+                                                               CustomObjectMarkers.Triangles3,
                                                                40, 40,
                                                                30, 30, True)
 
