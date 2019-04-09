@@ -27,20 +27,20 @@ def printResults (results):
 noSolutionFound = True
 clauses = []
 
-clauses.append(expr("Ind(sus,pie) & Suspect(sus,a) & Victime(v) & Mortpar(v,a) ==> Solution(sus,pie,a)"))
+clauses.append(expr("Ind(x,y) & Suspect(x,a) & Victime(v) & Mortpar(v,a) ==> Solution(x,y,a)"))
 clauses.append(expr("Ind(x,y) & Ind(a,y) ==> Suspect(sus,a))"))
 clauses.append(expr("Saigne(x) & Instr(Couteau) ==> Mortpar(x,Couteau)"))
 clauses.append(expr("Bruler(x) & Instr(Chandelier) ==> Mortpar(x,Chandelier)"))
-clauses.append(expr("Etouffé(x) & Instr(Corde) ==> Mortpar(x,Corde)")
+clauses.append(expr("Etouffer(x) & Instr(Corde) ==> Mortpar(x,Corde)")
 
 while noSolutionFound :
 
     clauses.append(expr("Victime(Mustard)"))
     clauses.append(expr("Ind(Black, Salon)"))
-    clauses.append(expr("Ind(Couteau, Salon)"))
+    clauses.append(expr("Ind(Chandelier, Salon)"))
     clauses.append(expr("Bruler(Mustard)"))
     clauses.append(expr("Instr(Chandelier)"))
-    clauses.append(expr("Suspect(Black)"))
+    clauses.append(expr("Suspect(Black,Chandelier)"))
 
     crime_kb = FolKB(clauses)
 
@@ -49,7 +49,7 @@ while noSolutionFound :
     
    
 print('-------------------------------------------------------------------------------------')
-printResults(nltk.interpret_sents(sents, './analysesyntaxique.fcfg'))
+printResults(nltk.interpret_sents(sents, './635/analysesyntaxique.fcfg'))
 
 #example('Mustard est au salon')
 print('end of program')

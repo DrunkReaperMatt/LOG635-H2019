@@ -1,4 +1,4 @@
-%start S
+﻿%start S
 S[SEM = <app(?vp, ?suj)>] -> NP[SEM=?suj] VP[SEM=?vp]
 S[SEM = <app(?vp, ?suj)>] -> NP[SEM=?suj] V[SEM=?vp]
 S[SEM =?vp] -> PP VP[SEM=?vp]
@@ -36,4 +36,3 @@ N[SEM=<Cuisine>] -> 'cuisine'
 N[SEM=<Salon>] -> 'salon'
 N[SEM=<Chambre>] -> 'chambre'
 N[SEM=<Couteau>] -> 'couteau' | 'couteaux'
-N[SEM=<Personne>] -> 'personne'
